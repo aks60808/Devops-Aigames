@@ -1,13 +1,20 @@
-resource "random_id" "bucket_prefix" {
-  byte_length = 8
-}
 
-resource "google_storage_bucket" "default" {
-  name          = "${random_id.bucket_prefix.hex}-bucket-tfstate"
-  force_destroy = false
-  location      = "US"
-  storage_class = "STANDARD"
-  versioning {
-    enabled = true
+terraform {
+  cloud {
+    organization = "aks60808"
+
+    workspaces {
+      name = "Aigames-workspace"
+    }
   }
 }
+
+# resource "google_storage_bucket" "default" {
+#   name          = "aks60808-aigames-bucket-tfstate"
+#   force_destroy = false
+#   location      = "US"
+#   storage_class = "STANDARD"
+#   versioning {
+#     enabled = true
+#   }
+# }
