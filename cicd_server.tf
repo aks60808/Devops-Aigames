@@ -8,7 +8,8 @@ provider "google" {
 
 resource "google_compute_instance" "cicd_server" {
   name         = "aigames-cicd-server"
-  machine_type = "e2-small"
+  machine_type = "e2-medium"
+  allow_stopping_for_update = true
   tags         = ["http-jenkins-server", "ssh"]
   boot_disk {
     initialize_params {
