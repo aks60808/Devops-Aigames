@@ -17,7 +17,6 @@ resource "google_compute_instance" "cicd_server" {
   }
 
   network_interface {
-    # A default network is created for all GCP projects
     network = "${var.project_id}-network"
     access_config {
     }
