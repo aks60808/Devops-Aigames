@@ -9,7 +9,7 @@ provider "google" {
 resource "google_compute_instance" "cicd_server" {
   name         = "aigames-cicd-server"
   machine_type = "e2-small"
-  tags         = ["http-jenkins-server","ssh"]
+  tags         = ["http-jenkins-server", "ssh"]
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
@@ -26,6 +26,21 @@ resource "google_compute_instance" "cicd_server" {
   ]
 }
 
+
+resource "google_storage_bucket" "backup_bucket" {
+  name          = "${var.project_id}-jenkins-backup-bucket"
+  location      = "AUSTRALIA-SOUTHEAST1"
+  force_destroy = true
+  lifecycle_rule {
+    condition {
+      age = 2
+    }
+    action {
+      type = "Delete"
+    }
+  }
+  public_access_prevention = "enforced"
+}
 
 variable "zone" {}
 variable "region" {}

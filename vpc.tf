@@ -23,7 +23,7 @@ resource "google_compute_firewall" "ssh" {
 resource "google_compute_firewall" "http-jenkins-server" {
   name = "allow-http-jenkins"
   allow {
-    ports    = ["80","8080"]
+    ports    = ["80", "8080"]
     protocol = "tcp"
   }
   direction     = "INGRESS"

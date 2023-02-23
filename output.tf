@@ -14,10 +14,10 @@ output "cicd_server_ip" {
 }
 
 
-# output "kubernetes_cluster_name" {
-#   value       = google_container_cluster.primary.name
-#   description = "GKE Cluster Name"
-# }
+output "jenkins_backup_bucket" {
+  value       = google_storage_bucket.backup_bucket.name
+  description = "jenkins backup buckets"
+}
 
 # output "kubernetes_cluster_host" {
 #   value       = google_container_cluster.primary.endpoint
