@@ -43,6 +43,11 @@ resource "google_storage_bucket" "backup_bucket" {
   public_access_prevention = "enforced"
 }
 
+resource "google_container_registry" "registry" {
+  project  = var.project_id
+  location = "ASIA"
+}
+
 variable "zone" {}
 variable "region" {}
 variable "project_id" {}

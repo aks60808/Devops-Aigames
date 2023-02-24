@@ -35,6 +35,21 @@ resource "google_compute_firewall" "http-jenkins-server" {
     google_compute_network.vpc_network
   ]
 }
+resource "google_compute_firewall" "allow-nodejs-site" {
+  name = "allow-nodejs-site"
+  allow {
+    ports    = ["3000"]
+    protocol = "tcp"
+  }
+  direction     = "INGRESS"
+  network       = google_compute_network.vpc_network.name
+  priority      = 1000
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["nodejs"]
+  depends_on = [
+    google_compute_network.vpc_network
+  ]
+}
 # resource "google_compute_firewall" "jenkins" {
 #   name    = "cicd-jenkins-firewall"
 #   network = google_compute_network.vpc_network.id

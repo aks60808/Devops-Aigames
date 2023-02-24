@@ -1,6 +1,6 @@
 ---
 - name: Install Jenkins
-  hosts: dev
+  hosts: cicd
   become: yes
   
   tasks:
@@ -36,4 +36,10 @@
   - name: display Initial Setup admin pwd
     debug:
       var: jenkins_init_ad_pwd
+  - name: put user jenkins to docker group
+    shell: sudo usermod -a -G docker jenkins
+  - name: create /sys/fs/cgroup/systemd dir 
+    ansible.builtin.shell: sudo mkdir /sys/fs/cgroup/systemd,
+  - name: configure cgroup mount
+    ansible.builtin.shell: sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
 

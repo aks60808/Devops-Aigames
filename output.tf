@@ -19,7 +19,7 @@ output "jenkins_backup_bucket" {
   description = "jenkins backup buckets"
 }
 
-# output "kubernetes_cluster_host" {
-#   value       = google_container_cluster.primary.endpoint
-#   description = "GKE Cluster Host"
-# }
+output "deployment_server_ip" {
+  value       = google_compute_instance.deployment_server.network_interface.0.access_config.0.nat_ip
+  description = "deployment server ip"
+}
