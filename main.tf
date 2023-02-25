@@ -1,15 +1,12 @@
-
+# store terraform states on terraform cloud
 terraform {
   cloud {
-    organization = var.tf_cloud_organization
+    # replace with your organization
+    organization = "aks60808"
 
     workspaces {
-      name = var.tf_cloud_workspace
+    # replace with your workspace name
+      name = "Aigames-workspace"
     }
   }
 }
-
-
-variable "tf_cloud_organization" {}
-
-variable "tf_cloud_workspace" {}
