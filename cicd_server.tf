@@ -1,9 +1,3 @@
-provider "google" {
-  project = var.project_id
-  region  = var.region
-  zone    = var.zone
-}
-
 resource "google_compute_instance" "cicd_server" {
   name         = "aigames-cicd-server"
   machine_type = "e2-medium"
