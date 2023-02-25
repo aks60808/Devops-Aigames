@@ -4,8 +4,6 @@ provider "google" {
   zone    = var.zone
 }
 
-
-
 resource "google_compute_instance" "cicd_server" {
   name         = "aigames-cicd-server"
   machine_type = "e2-medium"
@@ -30,7 +28,7 @@ resource "google_compute_instance" "cicd_server" {
 
 resource "google_storage_bucket" "backup_bucket" {
   name          = "${var.project_id}-jenkins-backup-bucket"
-  location      = "AUSTRALIA-SOUTHEAST1"
+  location      = var.region
   force_destroy = true
   lifecycle_rule {
     condition {
@@ -51,5 +49,5 @@ resource "google_container_registry" "registry" {
 variable "zone" {}
 variable "region" {}
 variable "project_id" {}
-variable "private_key_path" {}
-variable "ssh_user" {}
+
+

@@ -23,3 +23,4 @@ output "deployment_server_ip" {
   value       = google_compute_instance.deployment_server.network_interface.0.access_config.0.nat_ip
   description = "deployment server ip"
 }
+

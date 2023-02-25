@@ -1,20 +1,15 @@
 
 terraform {
   cloud {
-    organization = "aks60808"
+    organization = var.tf_cloud_organization
 
     workspaces {
-      name = "Aigames-workspace"
+      name = var.tf_cloud_workspace
     }
   }
 }
 
-# resource "google_storage_bucket" "default" {
-#   name          = "aks60808-aigames-bucket-tfstate"
-#   force_destroy = false
-#   location      = "US"
-#   storage_class = "STANDARD"
-#   versioning {
-#     enabled = true
-#   }
-# }
+
+variable "tf_cloud_organization" {}
+
+variable "tf_cloud_workspace" {}
