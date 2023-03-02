@@ -3,8 +3,8 @@
   hosts: cicd
   become: yes
   vars:
-    key_src: ~/jenkins_sa_key.json
-    key_dest: /home/tommylin/jenkins_sa_key_test.json
+    key_src: /your/absolute/path/to/sa_key.json
+    key_dest: /home/USERNAME/sa_key.json
 
   tasks:
   - name: copy Service account key from local to remote
@@ -103,7 +103,10 @@
       var: jenkins_init_ad_pwd
   - name: put user jenkins to docker group
     shell: sudo usermod -a -G docker jenkins
-  - name: create /sys/fs/cgroup/systemd dir 
-    ansible.builtin.shell: sudo mkdir /sys/fs/cgroup/systemd,
+  - name: create /sys/fs/cgroup/systemd dir if not such dir existed
+    file:
+       path: /sys/fs/cgroup/systemd
+       state: directory
+    
   - name: configure cgroup mount
     ansible.builtin.shell: sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
