@@ -5,4 +5,4 @@ This project I made is for the demonstration of pipelines. I utilised Terraform 
 
 ## Related Article:
 - Part 1: https://dev.to/tommyhenchuanlin/pipeline-example-using-terraform-jenkins-ansible-and-docker-on-google-cloud-4g1e
-- Part 2: To be compeleted
+- Part 2: https://dev.to/tommyhenchuanlin/pipeline-example-using-terraform-jenkins-ansible-and-docker-on-google-cloud-part-2-2kgj
