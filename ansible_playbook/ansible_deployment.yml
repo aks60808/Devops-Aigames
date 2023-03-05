@@ -1,0 +1,14 @@
+---
+- name: deploy app to server
+  hosts: all
+  become: yes
+  vars:
+    project_id: aigames-378310
+
+  tasks:     
+  - name: Remove if existed
+    shell: docker rm -f container aigame_container
+    ignore_errors: true
+      
+  - name: docker pull and run
+    shell: docker run -d -p 3000:3000 --name aigame_container asia.gcr.io/"{{project_id}}"/aigames:latest npm run start
