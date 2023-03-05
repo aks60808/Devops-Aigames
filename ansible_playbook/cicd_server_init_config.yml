@@ -110,6 +110,7 @@
   become: yes
   vars:
     key_src: /home/tommylin/build-pipeline-from-scratch/Devops-Aigames/sa_key.json
+    # replace above path with your absolute path of service acount key 
     key_dest: /var/lib/jenkins/key.json
 
   tasks:
@@ -137,6 +138,7 @@
   become: yes
   vars:
     playbook_src: /home/tommylin/build-pipeline-from-scratch/Devops-Aigames/ansible_playbook/ansible_deployment.yml
+    # replace above path with your absolute path of ansible_deployment.yml in project directory.
     playbook_dest: /var/lib/jenkins/ansible_deployment.yml
 
   tasks:

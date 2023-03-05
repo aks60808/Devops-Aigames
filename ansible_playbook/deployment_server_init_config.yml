@@ -4,6 +4,7 @@
   become: yes
   vars:
     username: "tommylin"
+    # replace above username with yours.
   tasks:
   - name: update apt 
     ansible.builtin.apt:

@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   vars:
-    project_id: aigames-378310
+    project_id: test-aigame
 
   tasks:     
   - name: Remove if existed
