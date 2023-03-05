@@ -1,31 +1,4 @@
 ---
-- name: Activate Service account
-  hosts: cicd
-  become: yes
-  vars:
-    key_src: ~/jenkins_sa_key.json
-    key_dest: /home/tommylin/jenkins_sa_key_test.json
-
-  tasks:
-  - name: copy Service account key from local to remote
-    copy:
-      src: "{{ key_src }}"
-      dest: "{{ key_dest }}"
-  - name: check key existed in hosts
-    ansible.builtin.stat:
-      path: "{{ key_dest }}"
-    register: key_data
-  - name: print key existence msg
-    ansible.builtin.debug:
-      msg: "The file {{ key_dest }} exist in hosts"
-    when: key_data.stat.exists
-  - name: gcloud auth
-    shell: gcloud auth activate-service-account --key-file="{{ key_dest }}"
-    register: auth_result
-  - name: display result of gcloud service account auth
-    debug: 
-      var : auth_result.stderr_lines
-
 - name: Install Docker
   hosts: cicd
   become: yes
@@ -103,7 +76,86 @@
       var: jenkins_init_ad_pwd
   - name: put user jenkins to docker group
     shell: sudo usermod -a -G docker jenkins
-  - name: create /sys/fs/cgroup/systemd dir 
-    ansible.builtin.shell: sudo mkdir /sys/fs/cgroup/systemd,
+  - name: create /sys/fs/cgroup/systemd dir if not such dir existed
+    file:
+       path: /sys/fs/cgroup/systemd
+       state: directory
+    
   - name: configure cgroup mount
     ansible.builtin.shell: sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+    
+- name: Install Ansible
+  hosts: cicd
+  become: yes
+  
+  tasks:
+  - name: add apt key
+    ansible.builtin.shell: sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+
+  - name: Add ansible debian repo to sources.list
+    apt_repository:
+      repo: deb http://ppa.launchpad.net/ansible/ansible/ubuntu focal main
+      state: present
+  - name: update apt cache
+    ansible.builtin.apt:
+      update_cache: yes
+      state: latest
+  - name: install ansible
+    ansible.builtin.apt:
+      name: ansible
+      state: present
+
+- name: Activate Service account
+  hosts: cicd
+  become: yes
+  vars:
+    key_src: /home/tommylin/build-pipeline-from-scratch/Devops-Aigames/sa_key.json
+    key_dest: /var/lib/jenkins/key.json
+
+  tasks:
+  - name: copy Service account key from local to remote
+    copy:
+      src: "{{ key_src }}"
+      dest: "{{ key_dest }}"
+  - name: check key existed in hosts
+    ansible.builtin.stat:
+      path: "{{ key_dest }}"
+    register: key_data
+  - name: print key existence msg
+    ansible.builtin.debug:
+      msg: "The file {{ key_dest }} exist in hosts"
+    when: key_data.stat.exists
+  - name: gcloud auth
+    shell: gcloud auth activate-service-account --key-file="{{ key_dest }}"
+    register: auth_result
+  - name: display result of gcloud service account auth
+    debug: 
+      var : auth_result.stderr_lines
+
+- name: Upload playbook to CICD server
+  hosts: cicd
+  become: yes
+  vars:
+    playbook_src: /home/tommylin/build-pipeline-from-scratch/Devops-Aigames/ansible_playbook/ansible_deployment.yml
+    playbook_dest: /var/lib/jenkins/ansible_deployment.yml
+
+  tasks:
+  - name: copy playbook to CICD server
+    copy:
+      src: "{{ playbook_src }}"
+      dest: "{{ playbook_dest }}"
+  - name: check playbook existed in hosts
+    ansible.builtin.stat:
+      path: "{{ playbook_dest }}"
+    register: playbook_data
+  - name: print key existence msg
+    ansible.builtin.debug:
+      msg: "The file {{ playbook_dest }} exist in hosts"
+    when: playbook_data.stat.exists
+  
+
+
+ 
+
+  
+

@@ -6,7 +6,7 @@ terraform {
 
     workspaces {
     # replace with your workspace name
-      name = "Aigames-workspace"
+      name = "build-from-scratch"
     }
   }
 }
